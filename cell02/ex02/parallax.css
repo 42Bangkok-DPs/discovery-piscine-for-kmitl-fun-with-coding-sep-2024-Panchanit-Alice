@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .parallax {
+    height: 100dvh;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  #image1 {
+    background-image: url("https://i.pinimg.com/564x/7e/e1/a1/7ee1a1f87a1b8ed604b246fdfbce00e7.jpg");
+  }
+  
+  #image2 {
+    background-image: url("https://i.pinimg.com/564x/b8/6d/12/b86d120a4c19bb259148a6cca12b97d2.jpg");
+  }
+  
+  .parallax-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: white;
+  }
+  
+  .black-block {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    background-color: black;
+    color: white;
+    width: 100%;
+    height: 200px;
+    font-size: 2em;
+  }
+  
+  .heading {
+    font-size: 5em;
+    filter: drop-shadow(0 0 2rem black);
+  }
