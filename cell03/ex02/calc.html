@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Calculator</title>
+    <script>
+        
+        function calculate() {
+
+            var FirstValue = parseInt(document.getElementById('first').value);
+            var SecondValue = parseInt(document.getElementById('second').value);
+            var operator = document.getElementById('operator').value;
+
+            if (isNaN(FirstValue) || isNaN(SecondValue) || FirstValue < 0 || SecondValue < 0) {
+                alert('Error :(');
+                console.log('Error :(');
+                return;
+            }
+
+            var result;
+            switch (operator) {
+                case '+':
+                    result = FirstValue + SecondValue;
+                    break;
+                case '-':
+                    result = FirstValue - SecondValue;
+                    break;
+                case '*':
+                    result = FirstValue * SecondValue;
+                    break;
+                case '/':
+                    if (SecondValue === 0) {
+                        alert("It's over 9000!");
+                        console.log("It's over 9000!");
+                        return;
+                    }
+                    result = FirstValue / SecondValue;
+                    break;
+                case '%':
+                    if (SecondValue === 0) {
+                        alert("It's over 9000!");
+                        console.log("It's over 9000!");
+                        return;
+                    }
+                    result = FirstValue % SecondValue;
+                    break;
+                default:
+                    alert('Unknown operator');
+                    console.log('Unknown operator');
+                    return;
+            }
+
+            alert('Result: ' + result);
+            console.log('Result: ' + result);
+        }
+
+        function showReminder() {
+            alert('Please, use me...');
+        }
+
+        window.onload = function() {
+            setInterval(showReminder, 30000);
+        }
+    </script>
+</head>
+<body>
+    <form onsubmit="event.preventDefault(); calculate();">
+        <input type="text" id="first" placeholder="First operand" />
+        <select id="operator">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+            <option value="%">%</option>
+        </select>
+        <input type="text" id="second" placeholder="Second operand" />
+        <input type="submit" value="Try me!" />
+    </form>
+</body>
+</html>
