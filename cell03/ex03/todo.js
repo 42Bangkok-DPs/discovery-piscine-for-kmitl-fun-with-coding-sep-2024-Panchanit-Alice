@@ -1,21 +1,24 @@
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
     // ฟังก์ชันเพิ่มงานใน DOM
     function addTask(taskText) {
-        var taskDiv = $('<div>').text(taskText); // สร้าง <div> สำหรับงานใหม่
-        taskDiv.click(function () {
+        var taskDiv = document.createElement('div'); // สร้าง <div> สำหรับงานใหม่
+        taskDiv.textContent = taskText; // ใส่ข้อความ
+        taskDiv.addEventListener('click', function () {
             if (confirm('Do you want to remove this TO DO?')) {
                 taskDiv.remove(); // ลบงานออกจาก DOM
                 saveTasks(); // อัปเดตคุกกี้หลังลบ
             }
         });
-        $('#ft_list').prepend(taskDiv); // ใส่งานใหม่ไว้ด้านบนสุด
+        var ftList = document.getElementById('ft_list');
+        ftList.insertBefore(taskDiv, ftList.firstChild); // ใส่งานใหม่ไว้ด้านบนสุด
     }
 
     // ฟังก์ชันบันทึกรายการงานลงคุกกี้
     function saveTasks() {
         var tasks = [];
-        $('#ft_list > div').each(function () {
-            tasks.push($(this).text()); // เก็บงานแต่ละงานใน array
+        var taskDivs = document.querySelectorAll('#ft_list > div'); // เลือก div ภายใต้ ft_list
+        taskDivs.forEach(function (taskDiv) {
+            tasks.push(taskDiv.textContent); // เก็บงานแต่ละงานใน array
         });
 
         var expirationDate = new Date();
@@ -33,9 +36,9 @@ $(document).ready(function () {
             var cookie = cookies[i].trim();
             if (cookie.startsWith('tasks=')) {
                 var tasks = JSON.parse(cookie.substring(6)); // ดึงค่าจากคุกกี้
-                for (var j = 0; j < tasks.length; j++) {
-                    addTask(tasks[j]); // เรียกฟังก์ชันเพิ่มงาน
-                }
+                tasks.forEach(function (task) {
+                    addTask(task); // เรียกฟังก์ชันเพิ่มงาน
+                });
             }
         }
     }
@@ -44,7 +47,7 @@ $(document).ready(function () {
     loadTasks();
 
     // ฟังก์ชันสร้างงานใหม่
-    $('#new-task').click(function () {
+    document.getElementById('new-task').addEventListener('click', function () {
         var task = prompt('Enter a new TO DO:'); // แสดงหน้าต่างให้ผู้ใช้กรอกงานใหม่
         if (task && task.trim() !== "") { // ถ้าผู้ใช้กรอกข้อมูล
             addTask(task);
