@@ -18,10 +18,9 @@ document.addEventListener('DOMContentLoaded', function () {
             tasks.push(taskDivs[i].textContent);
         }
 
-        var cookieValue = "tasks=" + JSON.stringify(tasks) + ";path=/";
-
-        console.log("Saving cookie:", cookieValue);
-        document.cookie = cookieValue;
+        var tasksJSON = JSON.stringify(tasks);
+        var encodedTasks = encodeURIComponent(tasksJSON);
+        document.cookie = "tasks=" + encodedTasks + ";path=/";
     }
 
     function loadTasks() {
@@ -29,14 +28,23 @@ document.addEventListener('DOMContentLoaded', function () {
         for (var i = 0; i < cookies.length; i++) {
             var cookie = cookies[i].trim();
             if (cookie.startsWith('tasks=')) {
-                var tasks = JSON.parse(cookie.substring(6));
-                for (var j = tasks.length - 1; j >= 0; j--) {
-                    addTask(tasks[j]);
+                var encodedTasks = cookie.substring(6);
+                try {
+                    var tasksJSON = decodeURIComponent(encodedTasks);
+                    var tasks = JSON.parse(tasksJSON);
+                    for (var j = tasks.length - 1; j >= 0; j--) {
+                        addTask(tasks[j]);
+                    }
+                } catch (e) {
+                    console.error('Error loading tasks from cookie:', e);
+                    document.cookie = 'tasks=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT';
                 }
             }
         }
     }
+    
     loadTasks();
+
     document.getElementById('new-task').addEventListener('click', function () {
         var task = prompt('Enter a new TO DO:');
         if (task && task.trim() !== "") {
