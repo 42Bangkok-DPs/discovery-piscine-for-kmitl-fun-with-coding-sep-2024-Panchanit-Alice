@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple Background Images</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            
+            /* พื้นหลังเต็มหน้าจอ */
+            background-image: url('https://marketplace.canva.com/EAFDL6gbGVM/1/0/1600w/canva-green-minimalist-illustrated-landscape-desktop-wallpaper-UwgW9eDIQrQ.jpg'), 
+                              url('https://scontent.fbkk12-1.fna.fbcdn.net/v/t39.30808-6/459414080_3745582355658461_4811324662118681285_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFp2xhz19wpS4um644aTZ3rSz8tkcnhS09LPy2RyeFLT3MXvgwZWh9vMrYnwW5VAqdljlVwELcYazM-DBYOvO20&_nc_ohc=f3PrdLIfHWcQ7kNvgGfI9yC&_nc_ht=scontent.fbkk12-1.fna&oh=00_AYA4shvDoQxPKPePftWq1yr--D8QAWDMxYh4DvlpEfmfsA&oe=66E85C60');
+            
+            /* รูปพื้นหลังที่ 1 (รูปเต็มหน้าจอ) */
+            background-size: cover, contain; /* รูปแรกครอบคลุมทั้งจอ, รูปที่สองใช้ขนาดตามอัตราส่วน */
+            background-position: center center, center center; /* จัดให้อยู่ตรงกลางทั้งสองรูป */
+            background-repeat: no-repeat, no-repeat; /* ไม่ให้รูปซ้ำ */
+        }
+
+        /* รูปตรงกลางที่อยู่ด้านบน */
+        .foreground-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1; /* ทำให้รูปอยู่ด้านบนสุด */
+        }
+
+        img {
+            width: 1000px ; /* กำหนดขนาดของรูปเป็น 50% ของหน้าจอ */
+            height: 700px; /* ให้ปรับขนาดตามอัตราส่วน */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- รูปตรงกลาง -->
+    <div class="foreground-image">
+        <img src="https://scontent.fbkk12-1.fna.fbcdn.net/v/t39.30808-6/459414080_3745582355658461_4811324662118681285_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFp2xhz19wpS4um644aTZ3rSz8tkcnhS09LPy2RyeFLT3MXvgwZWh9vMrYnwW5VAqdljlVwELcYazM-DBYOvO20&_nc_ohc=f3PrdLIfHWcQ7kNvgGfI9yC&_nc_ht=scontent.fbkk12-1.fna&oh=00_AYA4shvDoQxPKPePftWq1yr--D8QAWDMxYh4DvlpEfmfsA&oe=66E85C60" alt="Center Image">
+    </div>
+
+</body>
+</html>
