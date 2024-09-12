@@ -1,27 +1,24 @@
 $(document).ready(function () {
     function addTask(taskText) {
-        var taskDiv = $('<div>').text(taskText);
-        taskDiv.click(function () {
+        var $taskDiv = $('<div>').text(taskText);
+        $taskDiv.on('click', function () {
             if (confirm('Do you want to remove this TO DO?')) {
-                taskDiv.remove();
+                $taskDiv.remove();
                 saveTasks();
             }
         });
-        $('#ft_list').prepend(taskDiv); // ใส่ div ที่สร้างใหม่ไว้ด้านบน
+        $('#ft_list').prepend($taskDiv);
     }
 
     function saveTasks() {
         var tasks = [];
         $('#ft_list > div').each(function () {
-            tasks.unshift($(this).text()); // เพิ่มรายการใหม่ไว้ที่ต้น array
+            tasks.push($(this).text());
         });
 
-        var expirationDate = new Date();
-        expirationDate.setDate(expirationDate.getDate() + 7);
-        var cookieValue = "tasks=" + JSON.stringify(tasks) + ";path=/;expires=" + expirationDate.toUTCString();
-
-        console.log("Saving cookie:", cookieValue);
-        document.cookie = cookieValue;
+        var tasksJSON = JSON.stringify(tasks);
+        var encodedTasks = encodeURIComponent(tasksJSON);
+        document.cookie = "tasks=" + encodedTasks + ";path=/";
     }
 
     function loadTasks() {
@@ -29,19 +26,26 @@ $(document).ready(function () {
         for (var i = 0; i < cookies.length; i++) {
             var cookie = cookies[i].trim();
             if (cookie.startsWith('tasks=')) {
-                var tasks = JSON.parse(cookie.substring(6));
-                for (var j = 0; j < tasks.length; j++) {
-                    addTask(tasks[j]); // แสดงจากรายการแรกไปหลังสุด
+                var encodedTasks = cookie.substring(6);
+                try {
+                    var tasksJSON = decodeURIComponent(encodedTasks);
+                    var tasks = JSON.parse(tasksJSON);
+                    for (var j = tasks.length - 1; j >= 0; j--) {
+                        addTask(tasks[j]);
+                    }
+                } catch (e) {
+                    console.error('Error loading tasks from cookie:', e);
+                    document.cookie = 'tasks=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT';
                 }
             }
         }
     }
-
+    
     loadTasks();
 
-    $('#new-task').click(function () {
-        var task = prompt('Enter a new TO DO:'); 
-        if (task && task.trim() !== "") { 
+    $('#new-task').on('click', function () {
+        var task = prompt('Enter a new TO DO:');
+        if (task && task.trim() !== "") {
             addTask(task);
             saveTasks();
         }
