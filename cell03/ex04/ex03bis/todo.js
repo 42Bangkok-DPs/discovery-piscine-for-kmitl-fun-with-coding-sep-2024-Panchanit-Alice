@@ -1,7 +1,7 @@
-$(document).ready(function () {
+$(document).ready(function() {
     function addTask(taskText) {
         var $taskDiv = $('<div>').text(taskText);
-        $taskDiv.on('click', function () {
+        $taskDiv.click(function() {
             if (confirm('Do you want to remove this TO DO?')) {
                 $taskDiv.remove();
                 saveTasks();
@@ -12,7 +12,7 @@ $(document).ready(function () {
 
     function saveTasks() {
         var tasks = [];
-        $('#ft_list > div').each(function () {
+        $('#ft_list > div').each(function() {
             tasks.push($(this).text());
         });
 
@@ -40,10 +40,10 @@ $(document).ready(function () {
             }
         }
     }
-    
+
     loadTasks();
 
-    $('#new-task').on('click', function () {
+    $('#new-task').click(function() {
         var task = prompt('Enter a new TO DO:');
         if (task && task.trim() !== "") {
             addTask(task);
